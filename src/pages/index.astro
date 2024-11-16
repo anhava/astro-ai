@@ -1,0 +1,262 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import FeaturedPosts from '../components/FeaturedPosts.astro';
+import GuideCard from '../components/GuideCard.astro';
+import NewsCard from '../components/NewsCard.astro';
+
+const posts = await getCollection('blog');
+const featuredPosts = posts.filter(post => post.data.featured).slice(0, 3);
+
+const featuredGuides = [
+  {
+    title: 'Getting Started with AI Development',
+    description: 'Learn the fundamentals of AI development with practical examples and best practices.',
+    difficulty: 'beginner',
+    duration: '30 min',
+    icon: '🤖',
+    href: '/guides/ai-development-basics'
+  },
+  {
+    title: 'Building Neural Networks from Scratch',
+    description: 'Deep dive into neural network architecture and implementation.',
+    difficulty: 'advanced',
+    duration: '2 hours',
+    icon: '🧠',
+    href: '/guides/neural-networks'
+  }
+];
+
+const latestNews = [
+  {
+    title: 'OpenAI Announces GPT-5 Development',
+    excerpt: 'The next generation of language models promises unprecedented capabilities in natural language processing and understanding.',
+    category: 'AI News',
+    date: new Date('2024-02-20'),
+    readTime: '5 min',
+    href: '/news/openai-gpt5'
+  },
+  {
+    title: 'Quantum Computing Breakthrough',
+    excerpt: 'Scientists achieve quantum supremacy in error correction, paving the way for practical quantum computers.',
+    category: 'Quantum Computing',
+    date: new Date('2024-02-19'),
+    readTime: '4 min',
+    href: '/news/quantum-breakthrough'
+  }
+];
+---
+
+<Layout title="Modern Tech Blog - AI and Technology Insights">
+  <!-- Hero Section -->
+  <section class="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+    <!-- Animated background elements -->
+    <div class="absolute inset-0 overflow-hidden">
+      <div class="absolute w-[800px] h-[800px] bg-gradient-to-r from-primary-500/20 to-purple-600/20 rounded-full blur-3xl -top-1/4 -left-1/4 animate-blob"></div>
+      <div class="absolute w-[600px] h-[600px] bg-gradient-to-r from-purple-600/20 to-pink-500/20 rounded-full blur-3xl top-1/4 right-1/4 animate-blob animation-delay-2000"></div>
+      <div class="absolute w-[500px] h-[500px] bg-gradient-to-r from-pink-500/20 to-primary-500/20 rounded-full blur-3xl bottom-1/4 left-1/3 animate-blob animation-delay-4000"></div>
+    </div>
+
+    <!-- Neural Network Animation -->
+    <div class="absolute inset-0 bg-grid-pattern opacity-[0.015] dark:opacity-[0.03]"></div>
+
+    <!-- Content -->
+    <div class="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center space-y-8">
+        <!-- Floating badges -->
+        <div class="flex justify-center gap-4 animate-float">
+          <span class="glass px-4 py-2 rounded-full text-sm font-medium text-primary-600 dark:text-primary-400">
+            🤖 Artificial Intelligence
+          </span>
+          <span class="glass px-4 py-2 rounded-full text-sm font-medium text-purple-600 dark:text-purple-400">
+            🧠 Machine Learning
+          </span>
+          <span class="glass px-4 py-2 rounded-full text-sm font-medium text-pink-600 dark:text-pink-400">
+            🚀 Future Tech
+          </span>
+        </div>
+
+        <!-- Main heading -->
+        <h1 class="text-7xl font-bold leading-tight">
+          <span class="bg-gradient-to-r from-primary-500 via-purple-600 to-pink-500 text-transparent bg-clip-text animate-gradient">
+            Exploring Tomorrow's
+          </span>
+          <br />
+          <span class="text-gray-900 dark:text-gray-100">
+            Technology Today
+          </span>
+        </h1>
+
+        <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+          Dive into the latest innovations in <span class="text-primary-500 font-semibold">AI</span>,
+          <span class="text-purple-600 font-semibold">Machine Learning</span>, and
+          <span class="text-pink-500 font-semibold">Emerging Technologies</span>
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="flex justify-center gap-6 pt-8">
+          <a href="/blog" class="glass px-8 py-3 rounded-full text-lg font-medium bg-primary-500/10 hover:bg-primary-500/20 text-primary-600 dark:text-primary-400 hover:ring-2 ring-primary-500 transition-all">
+            Explore Articles
+          </a>
+          <a href="#featured" class="glass px-8 py-3 rounded-full text-lg font-medium hover:bg-gray-500/10 text-gray-600 dark:text-gray-400 hover:ring-2 ring-gray-500 transition-all">
+            Latest Posts
+          </a>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-3xl mx-auto mt-16">
+          <div class="glass p-6 rounded-xl transform hover:scale-105 transition-transform">
+            <div class="text-4xl font-bold bg-gradient-to-r from-primary-500 to-purple-600 text-transparent bg-clip-text">100+</div>
+            <div class="text-gray-600 dark:text-gray-400 mt-2">Articles</div>
+          </div>
+          <div class="glass p-6 rounded-xl transform hover:scale-105 transition-transform">
+            <div class="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 text-transparent bg-clip-text">50K+</div>
+            <div class="text-gray-600 dark:text-gray-400 mt-2">Monthly Readers</div>
+          </div>
+          <div class="glass p-6 rounded-xl transform hover:scale-105 transition-transform">
+            <div class="text-4xl font-bold bg-gradient-to-r from-pink-500 to-primary-500 text-transparent bg-clip-text">10+</div>
+            <div class="text-gray-600 dark:text-gray-400 mt-2">Expert Authors</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+      </svg>
+    </div>
+  </section>
+
+  <!-- Featured Posts Section -->
+  <section id="featured" class="container mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <div class="flex items-center justify-between mb-12">
+      <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">
+        Featured Insights
+      </h2>
+      <a href="/blog" class="glass px-6 py-2 rounded-full text-sm font-medium hover:ring-2 ring-primary-500 transition-all">
+        View All Posts →
+      </a>
+    </div>
+    <FeaturedPosts posts={featuredPosts} />
+  </section>
+
+  <!-- Featured Guides Section -->
+  <section class="container mx-auto px-4 sm:px-6 lg:px-8 py-16 bg-gradient-to-b from-transparent to-gray-50 dark:to-gray-900">
+    <div class="flex items-center justify-between mb-12">
+      <div>
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+          Learning Guides
+        </h2>
+        <p class="text-gray-600 dark:text-gray-400">
+          Step-by-step tutorials to master modern technologies
+        </p>
+      </div>
+      <a href="/guides" class="glass px-6 py-2 rounded-full text-sm font-medium hover:ring-2 ring-primary-500 transition-all">
+        Browse All Guides →
+      </a>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {featuredGuides.map(guide => (
+        <GuideCard {...guide} />
+      ))}
+    </div>
+  </section>
+
+  <!-- Latest News Section -->
+  <section class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="flex items-center justify-between mb-12">
+      <div>
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+          Latest News
+        </h2>
+        <p class="text-gray-600 dark:text-gray-400">
+          Stay updated with the latest in tech
+        </p>
+      </div>
+      <a href="/news" class="glass px-6 py-2 rounded-full text-sm font-medium hover:ring-2 ring-primary-500 transition-all">
+        View All News →
+      </a>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {latestNews.map(news => (
+        <NewsCard {...news} />
+      ))}
+    </div>
+  </section>
+
+  <!-- Topics Grid -->
+  <section class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <h2 class="text-3xl font-bold mb-12 text-gray-900 dark:text-gray-100">
+      Explore Topics
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {[
+        { title: 'Artificial Intelligence', icon: '🤖', color: 'from-blue-500 to-primary-500' },
+        { title: 'Machine Learning', icon: '🧠', color: 'from-purple-500 to-pink-500' },
+        { title: 'Web3 & Blockchain', icon: '🔗', color: 'from-orange-500 to-yellow-500' },
+        { title: 'Quantum Computing', icon: '⚛️', color: 'from-green-500 to-teal-500' },
+        { title: 'Cybersecurity', icon: '🔒', color: 'from-red-500 to-pink-500' },
+        { title: 'Future Tech', icon: '🚀', color: 'from-indigo-500 to-purple-500' }
+      ].map(topic => (
+        <a href={`/categories/${topic.title.toLowerCase().replace(/\s+/g, '-')}`} 
+           class="glass p-6 rounded-xl hover:ring-2 ring-primary-500 transition-all group">
+          <div class={`text-4xl mb-4 bg-gradient-to-r ${topic.color} text-transparent bg-clip-text group-hover:scale-110 transition-transform`}>
+            {topic.icon}
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
+            {topic.title}
+          </h3>
+        </a>
+      ))}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .bg-grid-pattern {
+    background-image: radial-gradient(circle at 1px 1px, currentColor 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  @keyframes blob {
+    0% {
+      transform: translate(0px, 0px) scale(1);
+    }
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+    100% {
+      transform: translate(0px, 0px) scale(1);
+    }
+  }
+  
+  .animate-blob {
+    animation: blob 7s infinite;
+  }
+  
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+</style>

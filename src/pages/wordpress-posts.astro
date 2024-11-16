@@ -1,0 +1,45 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getPosts } from '../lib/wordpress';
+import { Image } from 'astro:assets';
+
+const posts = await getPosts();
+---
+
+<Layout title="WordPress Posts">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-4xl font-bold mb-8">WordPress Posts</h1>
+    
+    <div class="grid gap-8">
+      {posts.map((post) => (
+        <article class="glass p-6 rounded-xl">
+          {post.featuredImage?.node && (
+            <div class="mb-4 rounded-lg overflow-hidden">
+              <img
+                src={post.featuredImage.node.sourceUrl}
+                alt={post.featuredImage.node.altText || post.title}
+                class="w-full h-64 object-cover"
+              />
+            </div>
+          )}
+          
+          <h2 class="text-2xl font-bold mb-4">
+            <a href={`/wordpress/${post.slug}`} class="hover:text-primary-500 transition-colors">
+              {post.title}
+            </a>
+          </h2>
+          
+          <div class="text-gray-600 dark:text-gray-400 mb-4" set:html={post.excerpt} />
+          
+          <div class="flex flex-wrap gap-2">
+            {post.categories.nodes.map((category) => (
+              <span class="px-3 py-1 text-sm bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 rounded-full">
+                {category.name}
+              </span>
+            ))}
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</Layout>

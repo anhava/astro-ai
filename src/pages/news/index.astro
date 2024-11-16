@@ -1,0 +1,110 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import NewsCard from '../../components/NewsCard.astro';
+
+const news = [
+  {
+    title: 'OpenAI Announces GPT-5 Development',
+    excerpt: 'The next generation of language models promises unprecedented capabilities in natural language processing and understanding.',
+    category: 'AI News',
+    date: new Date('2024-02-20'),
+    readTime: '5 min',
+    href: '/news/openai-gpt5'
+  },
+  {
+    title: 'Quantum Computing Breakthrough',
+    excerpt: 'Scientists achieve quantum supremacy in error correction, paving the way for practical quantum computers.',
+    category: 'Quantum Computing',
+    date: new Date('2024-02-19'),
+    readTime: '4 min',
+    href: '/news/quantum-breakthrough'
+  },
+  {
+    title: 'Web3 Protocol Sets New Standard',
+    excerpt: 'A new decentralized protocol aims to revolutionize how we interact with blockchain applications.',
+    category: 'Blockchain',
+    date: new Date('2024-02-18'),
+    readTime: '3 min',
+    href: '/news/web3-protocol'
+  }
+];
+
+const categories = [
+  'All News',
+  'AI News',
+  'Blockchain',
+  'Quantum Computing',
+  'Cybersecurity',
+  'Tech Industry'
+];
+---
+
+<Layout title="Tech News - Latest Updates in Technology">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="mb-12">
+      <h1 class="text-4xl font-bold mb-4 bg-gradient-to-r from-primary-500 via-purple-600 to-pink-500 text-transparent bg-clip-text">
+        Latest Tech News
+      </h1>
+      <p class="text-xl text-gray-600 dark:text-gray-400">
+        Stay updated with the latest developments in technology
+      </p>
+    </div>
+
+    <!-- Categories -->
+    <div class="mb-8 flex flex-wrap gap-4">
+      {categories.map(category => (
+        <button 
+          class={`px-4 py-2 rounded-full transition-all ${
+            category === 'All News'
+              ? 'bg-primary-500 text-white'
+              : 'glass text-gray-700 dark:text-gray-300 hover:ring-2 ring-primary-500'
+          }`}
+        >
+          {category}
+        </button>
+      ))}
+    </div>
+
+    <!-- Featured News -->
+    <div class="mb-12">
+      <h2 class="text-2xl font-semibold mb-6 text-gray-800 dark:text-gray-200">
+        Featured Stories
+      </h2>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <article class="glass rounded-xl overflow-hidden group">
+          <div class="aspect-video bg-gray-100 dark:bg-gray-800"></div>
+          <div class="p-6">
+            <span class="px-3 py-1 text-sm bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 rounded-full">
+              Breaking News
+            </span>
+            <h3 class="text-2xl font-bold mt-4 mb-2 group-hover:text-primary-500 transition-colors">
+              <a href="/news/featured">
+                Revolutionary AI Model Achieves Human-Level Understanding
+              </a>
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-4">
+              A breakthrough in artificial intelligence leads to new possibilities in natural language processing and comprehension.
+            </p>
+            <div class="flex items-center justify-between text-sm">
+              <span class="text-gray-500 dark:text-gray-400">10 min read</span>
+              <time class="text-gray-500 dark:text-gray-400">Feb 20, 2024</time>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- Latest News Grid -->
+    <div>
+      <h2 class="text-2xl font-semibold mb-6 text-gray-800 dark:text-gray-200">
+        Latest Updates
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {news.map(item => (
+          <NewsCard {...item} />
+        ))}
+      </div>
+    </div>
+  </div>
+</Layout>

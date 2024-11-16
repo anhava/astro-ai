@@ -1,0 +1,131 @@
+---
+import { SEO } from 'astro-seo';
+import '@fontsource-variable/inter';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import JsonLd from '../components/JsonLd.astro';
+
+export interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  publishDate?: Date;
+  modifiedDate?: Date;
+  author?: string;
+}
+
+const { 
+  title, 
+  description = "A modern blog about AI and technology", 
+  image = "/og-image.png",
+  type = 'website',
+  publishDate,
+  modifiedDate,
+  author
+} = Astro.props;
+
+const websiteSchema = {
+  name: 'Modern Tech Blog',
+  description,
+  url: Astro.site?.toString(),
+  image,
+  publisher: {
+    '@type': 'Organization',
+    name: 'Modern Tech Blog',
+    logo: {
+      '@type': 'ImageObject',
+      url: `${Astro.site}logo.png`
+    }
+  }
+};
+
+const articleSchema = type === 'article' ? {
+  ...websiteSchema,
+  headline: title,
+  datePublished: publishDate?.toISOString(),
+  dateModified: modifiedDate?.toISOString() || publishDate?.toISOString(),
+  author: {
+    '@type': 'Person',
+    name: author
+  }
+} : null;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <SEO
+      title={title}
+      description={description}
+      openGraph={{
+        basic: {
+          title,
+          type: type === 'article' ? 'article' : 'website',
+          image,
+        }
+      }}
+      twitter={{
+        creator: "@yourtwitterhandle",
+        card: "summary_large_image"
+      }}
+      extend={{
+        meta: [
+          { name: 'theme-color', content: '#0ea5e9' },
+          { name: 'apple-mobile-web-app-capable', content: 'yes' },
+          { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }
+        ],
+        link: [
+          { rel: 'manifest', href: '/site.webmanifest' },
+          { rel: 'alternate', type: 'application/rss+xml', href: '/rss.xml' }
+        ]
+      }}
+    />
+    
+    <JsonLd 
+      type={type === 'article' ? 'Article' : 'WebSite'} 
+      data={type === 'article' ? articleSchema : websiteSchema} 
+    />
+    
+    <script is:inline>
+      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark')
+      } else {
+        document.documentElement.classList.remove('dark')
+      }
+    </script>
+  </head>
+  <body class="min-h-screen bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
+    <div class="flex flex-col min-h-screen">
+      <Header />
+      <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <slot />
+      </main>
+      <Footer />
+    </div>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-bg: rgba(255, 255, 255, 0.1);
+  }
+  
+  .dark {
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-bg: rgba(255, 255, 255, 0.05);
+  }
+  
+  .glass {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+</style>

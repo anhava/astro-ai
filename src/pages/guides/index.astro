@@ -1,0 +1,72 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import GuideCard from '../../components/GuideCard.astro';
+
+const guides = [
+  {
+    title: 'Getting Started with AI Development',
+    description: 'Learn the fundamentals of AI development with practical examples and best practices.',
+    difficulty: 'beginner',
+    duration: '30 min',
+    icon: '🤖',
+    href: '/guides/ai-development-basics'
+  },
+  {
+    title: 'Building Neural Networks from Scratch',
+    description: 'Deep dive into neural network architecture and implementation.',
+    difficulty: 'advanced',
+    duration: '2 hours',
+    icon: '🧠',
+    href: '/guides/neural-networks'
+  },
+  {
+    title: 'Web3 Development Guide',
+    description: 'Comprehensive guide to building decentralized applications.',
+    difficulty: 'intermediate',
+    duration: '1.5 hours',
+    icon: '⛓️',
+    href: '/guides/web3-development'
+  }
+] as const;
+
+const categories = [
+  'AI & Machine Learning',
+  'Web Development',
+  'Blockchain',
+  'Cloud Computing',
+  'DevOps',
+  'Security'
+];
+---
+
+<Layout title="Tech Guides - Learn Modern Technologies">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="mb-12 text-center">
+      <h1 class="text-4xl font-bold mb-4 bg-gradient-to-r from-primary-500 via-purple-600 to-pink-500 text-transparent bg-clip-text">
+        Technical Guides & Tutorials
+      </h1>
+      <p class="text-xl text-gray-600 dark:text-gray-400">
+        Step-by-step guides to help you master modern technologies
+      </p>
+    </div>
+
+    <!-- Categories -->
+    <div class="mb-12">
+      <div class="flex flex-wrap gap-3 justify-center">
+        {categories.map(category => (
+          <button class="px-4 py-2 rounded-full glass hover:ring-2 ring-primary-500 transition-all text-gray-700 dark:text-gray-300">
+            {category}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Guide Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {guides.map(guide => (
+        <GuideCard {...guide} />
+      ))}
+    </div>
+  </div>
+</Layout>

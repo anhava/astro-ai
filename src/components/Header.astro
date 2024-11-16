@@ -1,0 +1,171 @@
+---
+import ThemeToggle from './ThemeToggle';
+
+const menuItems = {
+  blog: {
+    label: 'Blog',
+    items: [
+      { href: '/blog', label: 'All Posts' },
+      { href: '/blog/featured', label: 'Featured Articles' },
+      { href: '/blog/latest', label: 'Latest Posts' },
+      { href: '/wordpress-posts', label: 'WordPress Posts' }
+    ]
+  },
+  guides: {
+    label: 'Guides',
+    items: [
+      { href: '/guides', label: 'All Guides' },
+      { href: '/guides/beginner', label: 'Beginner Guides' },
+      { href: '/guides/advanced', label: 'Advanced Tutorials' },
+    ]
+  },
+  news: {
+    label: 'News',
+    items: [
+      { href: '/news', label: 'Latest News' },
+      { href: '/news/ai', label: 'AI Updates' },
+      { href: '/news/tech', label: 'Tech Industry' },
+    ]
+  }
+};
+---
+
+<header 
+  class="sticky top-0 z-50 backdrop-blur-lg border-b border-gray-200 dark:border-gray-800" 
+  role="banner"
+>
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <nav 
+      class="flex items-center justify-between h-16" 
+      role="navigation" 
+      aria-label="Main navigation"
+    >
+      <!-- Logo -->
+      <a 
+        href="/" 
+        class="text-2xl font-bold bg-gradient-to-r from-primary-500 to-purple-600 text-transparent bg-clip-text hover:opacity-80 transition-all"
+        aria-label="TechBlog - Home"
+      >
+        TechBlog
+      </a>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden lg:flex items-center gap-1">
+        {Object.entries(menuItems).map(([key, menu]) => (
+          <div class="relative group">
+            <button
+              class="px-4 py-2 rounded-lg text-gray-700 dark:text-gray-200 hover:text-primary-500 dark:hover:text-primary-400"
+              aria-expanded="false"
+              aria-controls={`${key}-menu`}
+            >
+              {menu.label}
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                class="h-4 w-4 inline-block ml-1 transform group-hover:rotate-180 transition-transform" 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            
+            <div
+              id={`${key}-menu`}
+              class="absolute top-full -left-2 w-48 mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all"
+              role="menu"
+            >
+              <div class="py-2" role="none">
+                {menu.items.map((item) => (
+                  <a
+                    href={item.href}
+                    class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    role="menuitem"
+                  >
+                    {item.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+
+        <a 
+          href="/categories" 
+          class="px-4 py-2 rounded-lg text-gray-700 dark:text-gray-200 hover:text-primary-500 dark:hover:text-primary-400"
+        >
+          Categories
+        </a>
+
+        <div class="ml-2">
+          <ThemeToggle client:only="react" />
+        </div>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button
+        id="mobile-menu-button"
+        class="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div
+      id="mobile-menu"
+      class="lg:hidden hidden"
+      role="menu"
+    >
+      <div class="py-2" role="none">
+        {Object.values(menuItems).map((menu) => (
+          <div class="px-4 py-2">
+            <span class="block text-sm font-medium text-gray-700 dark:text-gray-200">
+              {menu.label}
+            </span>
+            <div class="mt-2 pl-4">
+              {menu.items.map((item) => (
+                <a
+                  href={item.href}
+                  class="block px-2 py-2 text-sm text-gray-700 dark:text-gray-200 hover:text-primary-500 dark:hover:text-primary-400"
+                  role="menuitem"
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        ))}
+        
+        <a
+          href="/categories"
+          class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:text-primary-500 dark:hover:text-primary-400"
+          role="menuitem"
+        >
+          Categories
+        </a>
+        
+        <div class="px-4 py-2">
+          <ThemeToggle client:only="react" />
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  if (mobileMenuButton && mobileMenu) {
+    mobileMenuButton.addEventListener('click', () => {
+      const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+      mobileMenuButton.setAttribute('aria-expanded', (!isExpanded).toString());
+      mobileMenu.classList.toggle('hidden');
+    });
+  }
+</script>
